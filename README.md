@@ -1,6 +1,5 @@
 ### Kematna Apllication.
-!<img width="557" height="566" alt="image" src="https://github.com/user-attachments/assets/706adb1e-0c2d-4bf3-8114-f0f7adbdea7b" />
-
+![Logo](./assets/Khemtna.png)
 ## User Stories
 _________________________________________________________
 •	As a user, I want to browse available camps.
@@ -26,14 +25,12 @@ _________________________________________________________
 
 ## The ERD
 
-<img width="886" height="483" alt="ERD" src="https://github.com/user-attachments/assets/fdf702e5-693e-4b6b-a8bd-77cdd181c510" />
-
+![ERD](./assets/ERD.png)
 
 ## The WireFreame 
 
 ![WireFreame](./assets/Wirefream.png)
 ## Application MVP
 
-<img width="1408" height="768" alt="application MVP" src="https://github.com/user-attachments/assets/98612114-cfa5-4cc2-93f9-153589e24e54" />
-
+![MVP](./assets/Application%20MVP.png)
 
