@@ -31,7 +31,7 @@ _________________________________________________________
 
 ## The WireFreame 
 
-![WireFreame](/home/ali/code/ga/project/khematna/Khemtna-React-Front-End/assets/Wirefream.png)
+![WireFreame](./assets/Wirefream.png)
 ## Application MVP
 
 <img width="1408" height="768" alt="application MVP" src="https://github.com/user-attachments/assets/98612114-cfa5-4cc2-93f9-153589e24e54" />
