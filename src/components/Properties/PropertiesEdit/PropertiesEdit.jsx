@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import './CourseEdit.css';
+import './PropertiesEdit.css';
 
-const COURSE_API_BASE_URL = 'http://localhost:3000/courses';
+const Properties_API_BASE_URL = 'http://localhost:3000/Properties';
 const USER_API_BASE_URL = 'http://localhost:3000/users';
 
-function CourseEdit() {
-  const { courseId } = useParams();
+function PropertiesEdit() {
+  const { PropertiesId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  const [courseData, setCourseData] = useState({
+  const [PropertiesData, setPropertiesData] = useState({
     title: '',
     description: '',
     enrolledStudents: []
@@ -39,15 +39,15 @@ function CourseEdit() {
       };
 
       try {
-        const courseRes = await fetch(`${COURSE_API_BASE_URL}/${courseId}/edit`, { headers });
-        if (!courseRes.ok) {
-          const errorBody = await courseRes.json().catch(() => ({}));
-          throw new Error(errorBody.err || 'Failed to load course details.');
+        const PropertiesRes = await fetch(`${Properties_API_BASE_URL}/${PropertiesId}/edit`, { headers });
+        if (!PropertiesRes.ok) {
+          const errorBody = await PropertiesRes.json().catch(() => ({}));
+          throw new Error(errorBody.err || 'Failed to load Properties details.');
         }
 
-        const course = await courseRes.json();
-        course.enrolledStudents = course.enrolledStudents || [];
-        setCourseData(course);
+        const Properties = await PropertiesRes.json();
+        Properties.enrolledStudents = Properties.enrolledStudents || [];
+        setPropertiesData(Properties);
 
         const studentsRes = await fetch(`${USER_API_BASE_URL}?role=student`, { headers });
         if (!studentsRes.ok) {
@@ -65,13 +65,13 @@ function CourseEdit() {
     };
 
     fetchData();
-  }, [courseId, token]);
+  }, [PropertiesId, token]);
 
   useEffect(() => {
     if (isDeleted) {
       setIsSubmitting(false);
       setTimeout(() => {
-        navigate('/courses');
+        navigate('/Properties');
       }, 10);
       setIsDeleted(false);
     }
@@ -79,7 +79,7 @@ function CourseEdit() {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setCourseData(prevData => ({
+    setPropertiesData(prevData => ({
       ...prevData,
       [name]: value
     }));
@@ -90,10 +90,10 @@ function CourseEdit() {
   };
 
   const handleAddStudent = () => {
-    if (!selectedStudentId || courseData.enrolledStudents.includes(selectedStudentId)) {
+    if (!selectedStudentId || PropertiesData.enrolledStudents.includes(selectedStudentId)) {
       return;
     }
-    setCourseData(prevData => ({
+    setPropertiesData(prevData => ({
       ...prevData,
       enrolledStudents: [...prevData.enrolledStudents, selectedStudentId]
     }));
@@ -101,25 +101,25 @@ function CourseEdit() {
   };
 
   const handleRemoveStudent = studentIdToRemove => {
-    setCourseData(prevData => ({
+    setPropertiesData(prevData => ({
       ...prevData,
       enrolledStudents: prevData.enrolledStudents.filter(id => id !== studentIdToRemove)
     }));
   };
 
-  const handleDeleteCourse = async () => {
+  const handleDeleteProperties = async () => {
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const res = await fetch(`${COURSE_API_BASE_URL}/${courseId}`, {
+      const res = await fetch(`${Properties_API_BASE_URL}/${PropertiesId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (!res.ok) {
         const errorBody = await res.json().catch(() => ({}));
-        throw new Error(errorBody.err || 'Failed to delete course');
+        throw new Error(errorBody.err || 'Failed to delete Properties');
       }
 
       setShowDeleteConfirm(false);
@@ -139,29 +139,29 @@ function CourseEdit() {
     setSubmitSuccess(false);
 
     try {
-      const url = `${COURSE_API_BASE_URL}/${courseId}`;
+      const url = `${Properties_API_BASE_URL}/${PropertiesId}`;
       const res = await fetch(url, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(courseData)
+        body: JSON.stringify(PropertiesData)
       });
 
       if (res.status === 404) {
-        throw new Error('Course not found during update.');
+        throw new Error('propertie not found during update.');
       }
 
       if (!res.ok) {
         const errorBody = await res.json().catch(() => ({}));
-        const errorMessage = errorBody.err || 'Failed to update course.';
+        const errorMessage = errorBody.err || 'Failed to update Properties.';
         throw new Error(errorMessage);
       }
 
       setSubmitSuccess(true);
       setTimeout(() => {
-        navigate(`/courses/${courseId}`);
+        navigate(`/Properties/${PropertiesId}`);
       }, 1500);
     } catch (err) {
       console.error('Update Error:', err);
@@ -172,46 +172,46 @@ function CourseEdit() {
   };
 
   if (loading) {
-    return <div>Loading course details...</div>;
+    return <div>Loading Properties details...</div>;
   }
 
-  if (error && !courseData.title) {
+  if (error && !PropertiesData.title) {
     return <div>Error: {error}</div>;
   }
 
   return (
     <div>
-      <h2>Edit Course: {courseData.title}</h2>
+      <h2>Edit Properties: {PropertiesData.title}</h2>
 
-      {submitSuccess && <div>Course updated successfully! Redirecting...</div>}
+      {submitSuccess && <div>Properties updated successfully! Redirecting...</div>}
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Course Title</label>
+          <label>Properties Title</label>
           <input
             type="text"
             name="title"
-            value={courseData.title || ''}
+            value={PropertiesData.title || ''}
             onChange={handleChange}
             required
           />
         </div>
 
         <div>
-            <h2>Edit Course: {courseData.title}</h2>
+            <h2>Edit Properties: {PropertiesData.title}</h2>
             
             {submitSuccess && (
-                <div>Course updated successfully! Redirecting...</div>
+                <div>Properties updated successfully! Redirecting...</div>
             )}
 
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Course Title</label>
+                    <label>Properties Title</label>
                     <input
                         type="text"
                         id="title"
                         name="title"
-                        value={courseData.title || ''}
+                        value={PropertiesData.title || ''}
                         onChange={handleChange}
                         required
                     />
@@ -222,7 +222,7 @@ function CourseEdit() {
                     <textarea
                         id="description"
                         name="description"
-                        value={courseData.description || ''}
+                        value={PropertiesData.description || ''}
                         onChange={handleChange}
                         required
                     />
@@ -243,7 +243,7 @@ function CourseEdit() {
               -- Choose a Student --
             </option>
             {availableStudents
-              .filter(student => !courseData.enrolledStudents.includes(student._id.toString()))
+              .filter(student => !PropertiesData.enrolledStudents.includes(student._id.toString()))
               .map(student => (
                 <option key={student._id} value={student._id}>
                   {student.username}
@@ -259,11 +259,11 @@ function CourseEdit() {
         <div>
           <h4>Current Enrollment List:</h4>
 
-          {courseData.enrolledStudents.length === 0 ? (
+          {PropertiesData.enrolledStudents.length === 0 ? (
             <p>No students enrolled yet. Add students above and click 'Save Changes'.</p>
           ) : (
             <ul>
-              {courseData.enrolledStudents.map(enrolledId => {
+              {PropertiesData.enrolledStudents.map(enrolledId => {
                 const student = availableStudents.find(
                   s => s._id.toString() === enrolledId.toString()
                 );
@@ -311,7 +311,7 @@ function CourseEdit() {
             disabled={isSubmitting || loading}
             style={{ backgroundColor: 'red', color: 'white' }}
           >
-            Delete Course
+            Delete Properties
           </button>
         </div>
       </form>
@@ -333,13 +333,13 @@ function CourseEdit() {
         >
           <h4>⚠️ Confirm Deletion</h4>
           <p>
-            Are you absolutely sure you want to delete <strong>{courseData.title}</strong>? This
+            Are you absolutely sure you want to delete <strong>{PropertiesData.title}</strong>? This
             action cannot be undone.
           </p>
 
           <div style={{ marginTop: '15px' }}>
             <button
-              onClick={handleDeleteCourse}
+              onClick={handleDeleteProperties}
               disabled={isSubmitting}
               style={{
                 backgroundColor: 'red',
@@ -366,4 +366,4 @@ function CourseEdit() {
   );
 }
 
-export default CourseEdit;
+export default PropertiesEdit;
