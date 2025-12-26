@@ -1,0 +1,70 @@
+.properties-page {
+  padding: 20px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-icon {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.search-input {
+  flex: 1;
+  padding: 8px;
+}
+
+.properties-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.property-row {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.property-thumb {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.property-info {
+  flex: 1;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.price-rating-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stars {
+  color: #f5b50a;
+}
+
+.book-btn {
+  align-self: flex-end;
+  padding: 6px 14px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
