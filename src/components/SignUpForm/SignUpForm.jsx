@@ -1,119 +1,66 @@
-// Import the useContext hook
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
-
 import { signUp } from '../../services/authService';
-
-// Import the UserContext object
 import { UserContext } from '../../contexts/UserContext';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  // Pass the UserContext object to the useContext hook to access:
-  // - The user state (which we're not using here).
-  // - The setUser function to update the user state (which we are using).
-  //
-  // Destructure the object returned by the useContext hook for easy access
-  // to the data we added to the context with familiar names.
-  const { user, setUser } = useContext(UserContext);
-
-  if (!user || user.role !== 'school') {
-    return <p style={{ color: 'red' }}>Access denied. Only school admins can create accounts.</p>;
-  }
-
+  const { setUser } = useContext(UserContext);
 
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
+    ContactNumber: '',
     password: '',
     passwordConf: '',
-    role: 'student',
+    role: 'user',
   });
 
-
-  const { username, password, passwordConf, role } = formData;
-
-  const handleChange = (evt) => {
+  const handleChange = (e) => {
     setMessage('');
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = async (evt) => {
-    evt.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const newUser = await signUp(formData);
-      // Call the setUser function to update the user state, just like normal.
-
-      setUser(newUser);
-      // Take the user to the (non-existent) home page after they sign up.
-      // We'll get to this shortly!
+      const user = await signUp(formData);
+      setUser(user);
       navigate('/');
     } catch (err) {
       setMessage(err.message);
     }
   };
 
-  const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
-  };
+  const isFormInvalid = () =>
+    !(
+      formData.username &&
+      formData.email &&
+      formData.ContactNumber &&
+      formData.password &&
+      formData.password === formData.passwordConf
+    );
 
   return (
     <main>
       <h1>Create an Account</h1>
       <p>{message}</p>
+
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username:</label>
-          <input
-            type='text'
-            id='username'
-            value={username}
-            name='username'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            id='password'
-            value={password}
-            name='password'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='confirm'>Confirm Password:</label>
-          <input
-            type='password'
-            id='confirm'
-            value={passwordConf}
-            name='passwordConf'
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <input name="username" placeholder="Username" onChange={handleChange} />
+        <input name="email" placeholder="Email" onChange={handleChange} />
+        <input name="ContactNumber" placeholder="Phone Number" onChange={handleChange} />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+        <input
+          type="password"
+          name="passwordConf"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+        />
 
-        <div>
-          <label htmlFor='role'>Role:</label>
-          <select
-            id='role'
-            name='role'
-            value={role}
-            onChange={handleChange}
-            >
-            <option value='student'>Student</option>
-            <option value='school'>School</option>
-          </select>
-
-        </div>
-
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-          <button type="button" onClick={() => navigate('/')}>Cancel</button>
-        </div>
+        <button disabled={isFormInvalid()}>Sign Up</button>
+        <button type="button" onClick={() => navigate('/')}>Cancel</button>
       </form>
     </main>
   );

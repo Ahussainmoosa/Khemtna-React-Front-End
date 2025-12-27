@@ -1,6 +1,6 @@
 // src/components/NavBar/NavBar.jsx
 import { useContext } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 
 const NavBar = () => {
@@ -14,12 +14,12 @@ const NavBar = () => {
   return (
     <nav>
       <ul>
-        {/* Always visible */}
+        {/*puplic*/}
         <li>
           <Link to="/">Home</Link>
         </li>
 
-        {/* Guest */}
+        {/*guest*/}
         {!user && (
           <>
             <li>
@@ -31,11 +31,11 @@ const NavBar = () => {
           </>
         )}
 
-        {/* User */}
+        {/* user */}
         {user && user.role === 'user' && (
           <>
             <li>
-              <Link to="/bookings/my">My Bookings</Link>
+              <li><Link to="/my-bookings">My Bookings</Link></li>
             </li>
           </>
         )}
@@ -52,6 +52,11 @@ const NavBar = () => {
           </>
         )}
 
+        {user?.role === 'admin' && (
+          <Link to="/admin/owner-requests">Owner Requests</Link>
+        )}
+        
+
         {/* Signed in */}
         {user && (
           <>
@@ -60,6 +65,9 @@ const NavBar = () => {
               <Link to="/" onClick={handleSignOut}>
                 Sign Out
               </Link>
+              </li>
+              <li>
+              <Link to="/settings">Settings</Link>
             </li>
           </>
         )}

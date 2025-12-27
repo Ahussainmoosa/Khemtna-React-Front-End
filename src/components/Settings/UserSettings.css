@@ -1,0 +1,26 @@
+.settings-layout {
+  display: flex;
+}
+
+.settings-sidebar {
+  width: 220px;
+  background: var(--bg-card);
+  padding: 16px;
+  border-right: 1px solid var(--border-light);
+}
+
+.settings-sidebar button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.settings-content {
+  flex: 1;
+  padding: 20px;
+}

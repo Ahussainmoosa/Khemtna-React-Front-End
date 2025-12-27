@@ -1,0 +1,58 @@
+/* Layout */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: var(--space-lg);
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.row {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Text */
+.text-muted {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+/* Inputs */
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  margin-bottom: var(--space-sm);
+}
